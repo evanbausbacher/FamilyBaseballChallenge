@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class StandingsController extends AbstractController
 {
     /**
-     * @Route("/home", name="app_homepage")
+     * @Route("/", name="app_homepage")
      */
     public function homepage() 
     {
