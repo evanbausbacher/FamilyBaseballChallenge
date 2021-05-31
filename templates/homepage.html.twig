@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}Bausbacher MLB{% endblock %}
 {% block body %}
 <div class="container">
     <section id="events">
@@ -11,7 +11,7 @@
                     </div>
                     <div class="card-body card-dashboard">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered dom-jQuery-events" id="tourn-stats">
+                            <table class="table table-bordered table-hover dom-jQuery-events" id="tourn-stats">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -23,8 +23,9 @@
                                 </thead> 
                                 <tbody>
                                     {% for t in teams %}
+                                    {# onclick="showTeamInfo('{{ t.teamName }}');" #}
                                         <tr>
-                                            <td>{{ t.teamName }}</td>
+                                            <td><a href="{{path('team_page', {teamName : t.teamName}) }}">{{ t.teamName }}</a></td>                                            
                                             <td>{{ t.teamWins }}</td>
                                             <td>{{ t.teamLosses }}</td>
                                             <td>{{ t.teamGamesPlayed }}</td>

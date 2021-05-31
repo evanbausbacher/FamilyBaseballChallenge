@@ -1,10 +1,31 @@
 <?php
 namespace App\Service;
 include "Team.php";
-
+include "MLBTeam.php";
 
 class DataCollection
 {
+
+    // private $familyMLB = array(
+    //     "Evan" => ['Yankees', 'Indians', 'Rangers', 'Braves'],
+    //     "Jack" => ['Royals', 'Twins', 'Nationals', 'Phillies'],
+    //     "Mom" => ['Giants', 'Dodgers', 'Rays', 'Cubs'],
+    //     "Dad" => ['Angels', 'Astros', 'Pirates', 'White Sox']
+    // );
+    private $familyTeam;
+    
+    function __construct()
+    {
+        $this->familyTeams = array(
+            new Team("Evan", 0, 0, 0,['Yankees', 'Indians', 'Rangers', 'Braves']),
+            new Team("Jack", 0, 0, 0, ['Royals', 'Twins', 'Nationals', 'Phillies']), 
+            new Team("Mom", 0, 0, 0, ['Giants', 'Dodgers', 'Rays', 'Cubs']),
+            new Team("Dad", 0, 0, 0, ['Angels', 'Astros', 'Pirates', 'White Sox'])
+        );
+    }
+    
+
+
     function getMLBDataJSON(){
         if (! function_exists ( 'curl_version' )) {
             exit ( "Enable cURL in PHP" );
@@ -14,7 +35,6 @@ class DataCollection
         $timeout = 0; // 100; // set to zero for no timeout
         $myHITurl = "https://erikberg.com/mlb/standings.json";
         
-        //$f = fopen("mlb_standings.json","w");
         curl_setopt ( $ch, CURLOPT_URL, $myHITurl );
         curl_setopt ( $ch, CURLOPT_HEADER, 0 );
         curl_setopt ( $ch, CURLOPT_USERAGENT, "EvanBausbacherStudentUT" );
@@ -26,79 +46,69 @@ class DataCollection
             curl_close ( $ch );
             exit ();
         }
-        //fwrite($f, $file_contents);
         curl_close ( $ch );
-        //fclose($f);
         return json_decode($file_contents,true);
     }
 
     function createSortedFamilyStandings($json_data){
-        $teamNames = array(
-            "Evan", "Jack", "Mom", "Dad"
-        );
         
-        $Evan_team_list = ['Yankees', 'Indians', 'Rangers', 'Braves'];
-        $Jack_team_list = ['Royals', 'Twins', 'Nationals', 'Phillies'];
-        $Mom_team_list = ['Giants', 'Dodgers', 'Rays', 'Cubs'];
-        $Dad_team_list = ['Angels', 'Astros', 'Pirates', 'White Sox'];
-        
-        $family_teams = [$Evan_team_list, $Jack_team_list, $Mom_team_list, $Dad_team_list];
-        
-        $teams = [];
         $standings = $json_data['standing'];
-        for ($family_id = 0; $family_id < sizeof($family_teams); $family_id++) {
+
+        foreach ($this->familyTeams as $familyTeam){
             $wins = 0;
             $losses = 0;
             $gamesPlayed = 0;
-            for ($standing_index = 0; $standing_index < sizeof($json_data['standing']); $standing_index++) {
-                if (in_array($standings[$standing_index]['last_name'], $family_teams[$family_id])) {
-                    // printf($standings[$standing_index]['last_name'] . '-' . $standings[$standing_index]['won'] . PHP_EOL);
+            for ($standing_index = 0; $standing_index < sizeof($json_data['standing']); $standing_index++) 
+            {
+                if (in_array($standings[$standing_index]['last_name'], $familyTeam->getTeamList()))
+                {
+                    // team belongs to a member of the family. accumulate the stats
                     $wins += $standings[$standing_index]['won'];
                     $losses += $standings[$standing_index]['lost'];
                     $gamesPlayed += $standings[$standing_index]['games_played'];
+
+                    $mlbTeam = new MLBTeam($standings[$standing_index]['last_name'], $standings[$standing_index]['won'], $standings[$standing_index]['lost'], $standings[$standing_index]['games_played']);
+                    $familyTeam->addMLBTeam($mlbTeam);
                 }
             }
-            $team = new Team($teamNames[$family_id], $wins, $losses, $gamesPlayed);
-            // print $team;
-            array_push($teams, $team);
-        }
-        
-        
-        // function cmp(Team $teamA, Team $teamB){
-        //     if ($teamA->getTeamWins() == $teamB->getTeamWins()){
-        //         return $teamA->getTeamLosses() < $teamB->getTeamLosses();
-        //     }
-        //     return $teamA->getTeamWins() < $teamB->getTeamWins();
-        // }
-        
-        // foreach ($teams as $team){
-        //     echo $team;
-        // }
-        // echo "sorting\n";
-        
-        // usort($teams, "cmp");
-        usort($teams, function (Team $teamA, Team $teamB){
+            $familyTeam->setTeamWins($wins);
+            $familyTeam->setTeamLosses($losses);
+            $familyTeam->setTeamGamesPlayed($gamesPlayed);
+
+            // dump($familyTeam);
+        } 
+                
+        usort($this->familyTeams, function (Team $teamA, Team $teamB){
+            // sort by wins then by losses
             if ($teamA->getTeamWins() == $teamB->getTeamWins()){
+
                 return $teamA->getTeamLosses() < $teamB->getTeamLosses();
+
             }
+
             return $teamA->getTeamWins() < $teamB->getTeamWins();
         });
-        $teams[0]->setGamesBack('-');
+
+        $this->familyTeams[0]->setGamesBack('-');
         
+        // compute games back now that standings are sorted by wins and then by losses
+        for ($team_id = 1; $team_id < sizeof($this->familyTeams); $team_id++){
+            $first_wins = $this->familyTeams[0]->getTeamWins();
+            $first_losses = $this->familyTeams[0]->getTeamLosses();
         
-        for ($team_id = 1; $team_id < sizeof($teams); $team_id++){
-            $first_wins = $teams[0]->getTeamWins();
-            $first_losses = $teams[0]->getTeamLosses();
-        
-            $team_wins = $teams[$team_id]->getTeamWins();
-            $team_losses = $teams[$team_id]->getTeamLosses();
+            $team_wins = $this->familyTeams[$team_id]->getTeamWins();
+            $team_losses = $this->familyTeams[$team_id]->getTeamLosses();
         
             $gamesBack = (abs($first_wins - $team_wins) + abs($first_losses - $team_losses)) / 2;
-            // printf($teams[$team_id]->getTeamName() . ' ' . $gamesBack);
-            $teams[$team_id]->setGamesBack($gamesBack);
+            $this->familyTeams[$team_id]->setGamesBack($gamesBack);
         }
 
-        return $teams;
+        return $this->familyTeams; // array of team objects sorted in order. 
+    }
+
+    function returnTeamList($teamName)
+    {
+        return $this->familyMLB[$teamName];
     }
 }
 

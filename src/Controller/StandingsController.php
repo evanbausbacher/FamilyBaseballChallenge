@@ -8,13 +8,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StandingsController extends AbstractController
 {
+
+    private $data;
+
+    function __construct()
+    {
+        $this->data = new DataCollection();
+    }
+    
     /**
      * @Route("/", name="app_homepage")
      */
     public function homepage() 
     {
-        $data = new DataCollection();
-        $teams = $data->createSortedFamilyStandings($data->getMLBDataJSON());
+        
+        $teams = $this->data->createSortedFamilyStandings($this->data->getMLBDataJSON());
 
         // dump($teams);
 
@@ -22,5 +30,20 @@ class StandingsController extends AbstractController
             'teams' => $teams
         ]);
 
+    }
+
+    /**
+     * @Route("/team/{teamName}", name="team_page")
+     */
+    public function teampage($teamName)
+    {
+        $teamList = $this->data->returnTeamList($teamName);
+
+        dump($teamList);
+
+        return $this->render('teampage.html.twig', [
+            'name' => $teamName,
+            'teamList' => $teamList
+        ]);
     }
 }

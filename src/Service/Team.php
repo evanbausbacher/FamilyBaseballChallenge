@@ -8,14 +8,18 @@ class Team{
     private $teamLosses;
     private $teamGamesPlayed;
     private $gamesBack;
+    private $teamList;
+    private $mlbTeams; 
 
-    function __construct($teamName, $teamWins, $teamLosses, $teamGamesPlayed)
+    function __construct($teamName, $teamWins, $teamLosses, $teamGamesPlayed, $teamList)
     {
         $this->teamName = $teamName;
         $this->teamWins = $teamWins;
         $this->teamLosses = $teamLosses;
         $this->teamGamesPlayed = $teamGamesPlayed;
         $this->gamesBack = 0;
+        $this->teamList = $teamList;
+        $this->mlbTeams = [];
     }
 
     function setTeamWins($wins){
@@ -52,6 +56,18 @@ class Team{
 
     function getGamesBack(){
         return $this->gamesBack;
+    }
+
+    function setTeamList($teamList){
+        $this->teamList = $teamList;
+    }
+
+    function getTeamList(){
+        return $this->teamList;
+    }
+
+    function addMLBTeam($mlbTeam){
+        array_push($this->mlbTeams, $mlbTeam);
     }
 
     function __toString()
