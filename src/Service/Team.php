@@ -9,7 +9,7 @@ class Team{
     private $teamGamesPlayed;
     private $gamesBack;
     private $teamList;
-    private $mlbTeams; 
+    private $mlbTeams ; 
 
     function __construct($teamName, $teamWins, $teamLosses, $teamGamesPlayed, $teamList)
     {
@@ -68,6 +68,10 @@ class Team{
 
     function addMLBTeam($mlbTeam){
         array_push($this->mlbTeams, $mlbTeam);
+    }
+
+    function getMLBTeams(){
+        return $this->mlbTeams;
     }
 
     function __toString()

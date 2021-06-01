@@ -11,7 +11,7 @@
                     </div>
                     <div class="card-body card-dashboard">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover dom-jQuery-events" id="tourn-stats">
+                            <table class="js-standings-table table table-bordered table-hover dom-jQuery-events" id="standings">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -19,18 +19,36 @@
                                         <th>Losses</th>
                                         <th>Games Played</th>
                                         <th>Games Back</th>
+                                        <th></th>
                                     </tr>
-                                </thead> 
+                                </thead>
                                 <tbody>
                                     {% for t in teams %}
                                     {# onclick="showTeamInfo('{{ t.teamName }}');" #}
-                                        <tr>
-                                            <td><a href="{{path('team_page', {teamName : t.teamName}) }}">{{ t.teamName }}</a></td>                                            
-                                            <td>{{ t.teamWins }}</td>
-                                            <td>{{ t.teamLosses }}</td>
-                                            <td>{{ t.teamGamesPlayed }}</td>
-                                            <td>{{ t.gamesBack }}</td>
+                                    <tr class="teams">
+                                        <td>
+                                            <a href="{{path('team_page', {teamName : t.teamName}) }}">{{ t.teamName }}</a>
+                                        </td>
+                                        <td>{{ t.teamWins }}</td>
+                                        <td>{{ t.teamLosses }}</td>
+                                        <td>{{ t.teamGamesPlayed }}</td>
+                                        <td>{{ t.gamesBack }}</td>
+                                        <td>
+                                            <a href="#" class="js-expand-standings"
+                                                data-url="{{ path('expand_team', {teamName : t.teamName}) }}"
+                                            >
+                                                <span data-toggle="toggle" class="material-icons">expand_more</span>
+                                            </a>
+                                        </td>
+                                        {% for mlb in t.mlbTeams %}
+                                        <tr class="hide" style="display: none;">
+                                            <td>&nbsp; &nbsp; &nbsp; {{mlb.teamName}}</td>
+                                            <td>{{mlb.teamWins}}</td>
+                                            <td>{{mlb.teamLosses}}</td>
+                                            <td>{{mlb.teamGamesPlayed}}</td>
                                         </tr>
+                                        {% endfor %}
+                                    </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -42,3 +60,12 @@
     </section>
 </div>
 {% endblock %}
+
+{# {% block javascripts %}
+    {{ parent() }}
+    <script>
+        // $('.js-standings-table tbody tr').on('click', function () {
+        //     console.log('row clicked');
+        // })
+    </script>
+{% endblock %} #}

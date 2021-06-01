@@ -1,5 +1,8 @@
 <?php
 namespace App\Service;
+
+use Exception;
+
 include "Team.php";
 include "MLBTeam.php";
 
@@ -12,7 +15,7 @@ class DataCollection
     //     "Mom" => ['Giants', 'Dodgers', 'Rays', 'Cubs'],
     //     "Dad" => ['Angels', 'Astros', 'Pirates', 'White Sox']
     // );
-    private $familyTeam;
+    public $familyTeams;
     
     function __construct()
     {
@@ -22,11 +25,15 @@ class DataCollection
             new Team("Mom", 0, 0, 0, ['Giants', 'Dodgers', 'Rays', 'Cubs']),
             new Team("Dad", 0, 0, 0, ['Angels', 'Astros', 'Pirates', 'White Sox'])
         );
+
+        $this->familyTeams = $this->createSortedFamilyStandings($this->getMLBDataJSON());
     }
     
+    public function getStandings(){
+        return $this->familyTeams;
+    }
 
-
-    function getMLBDataJSON(){
+    private function getMLBDataJSON(){
         if (! function_exists ( 'curl_version' )) {
             exit ( "Enable cURL in PHP" );
         }
@@ -37,7 +44,7 @@ class DataCollection
         
         curl_setopt ( $ch, CURLOPT_URL, $myHITurl );
         curl_setopt ( $ch, CURLOPT_HEADER, 0 );
-        curl_setopt ( $ch, CURLOPT_USERAGENT, "EvanBausbacherStudentUT" );
+        curl_setopt ( $ch, CURLOPT_USERAGENT, "EvanBausbacherStudent@UT" );
         curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
         curl_setopt ( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
         $file_contents = curl_exec ( $ch );
@@ -50,9 +57,14 @@ class DataCollection
         return json_decode($file_contents,true);
     }
 
-    function createSortedFamilyStandings($json_data){
+    private function createSortedFamilyStandings($json_data){
+        try{
+            $standings = $json_data['standing'];
+        }
+        catch ( Exception ){
+            return ['800'];
+        }
         
-        $standings = $json_data['standing'];
 
         foreach ($this->familyTeams as $familyTeam){
             $wins = 0;
@@ -106,9 +118,13 @@ class DataCollection
         return $this->familyTeams; // array of team objects sorted in order. 
     }
 
-    function returnTeamList($teamName)
+    public function returnTeamObject($teamName)
     {
-        return $this->familyMLB[$teamName];
+        foreach ($this->familyTeams as $team){
+            if ($team->getTeamName() == $teamName){
+                return $team;
+            }
+        }
     }
 }
 

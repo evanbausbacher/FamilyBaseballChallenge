@@ -17,6 +17,20 @@ class MLBTeam
         $this->teamGamesPlayed = $teamGamesPlayed;
     }
 
+    function getTeamName(){
+        return $this->teamName;
+    }
+
+    function getTeamWins(){
+        return $this->teamWins;
+    }
+    function getTeamLosses(){
+        return $this->teamLosses;
+    }
+    function getTeamGamesPlayed(){
+        return $this->teamGamesPlayed;
+    }
+
     function getTeamInfo(){
         $teamInfo = [$this->teamName, $this->teamWins, $this->teamLosses, $this->teamGamesPlayed];
         return $teamInfo;
