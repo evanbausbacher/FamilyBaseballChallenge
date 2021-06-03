@@ -11,7 +11,7 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
-import $ from 'jquery';
+import $, { each } from 'jquery';
 
 
 // $(".js-row").on('click', function(e){
@@ -100,3 +100,14 @@ $('[data-tier=2]').addClass('table-info');
 $('[data-tier=3]').addClass('table-warning');
 $('[data-tier=4]').addClass('table-danger');
 
+$('[data-pd="pos"]').each(function(){
+    $(this).addClass('fas fa-sort-up');
+    $(this).css("color", "green");
+});
+/**
+ * 
+ */
+$('[data-pd="neg"]').each(function(){
+    $(this).addClass('fas fa-sort-down');
+    $(this).css("color", "red");
+});

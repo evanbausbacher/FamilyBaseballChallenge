@@ -5,8 +5,8 @@ use Exception;
 use Symfony\Component\Finder\Finder;
 
 
-include "Team.php";
-include "MLBTeam.php";
+//include "Team.php";
+//include "MLBTeam.php";
 
 class DataCollection
 {
@@ -21,7 +21,7 @@ class DataCollection
             new Team("Dad", 0, 0, 0, ['Angels', 'Astros', 'Pirates', 'White Sox'])
         );
 
-        //$this->m_familyTeams = $this->createSortedFamilyStandings($this->getMLBDataJSON());
+        // $this->m_familyTeams = $this->createSortedFamilyStandings($this->getMLBDataJSON());
         $this->m_familyTeams = $this->createSortedFamilyStandings($this->loadMLBDataJSON());
     }
     
@@ -42,7 +42,6 @@ class DataCollection
         
         curl_setopt ( $ch, CURLOPT_URL, $myHITurl );
         curl_setopt ( $ch, CURLOPT_HEADER, 0 );
-        // randomizing userString because was getting API callback errors for invalud user strings after 1-2 days of no problem with the same user string. 
         $userAgentString = 'evanbaus@gmail.com'; //$this->generateRandomUserAgentString(); 
         curl_setopt ( $ch, CURLOPT_USERAGENT, $userAgentString );
         curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
@@ -54,6 +53,8 @@ class DataCollection
             exit ();
         }
         curl_close ( $ch );
+        // $file = fopen("updated_standings.json", "w");
+        // fwrite($file, $file_contents);
         return json_decode($file_contents,true);
     }
 
@@ -62,6 +63,7 @@ class DataCollection
         // temportary fix for reading json data from file system sunce API not working
 
         $file_contents = file_get_contents('C:\Users\evanb\Documents\ProtoLink\family_baseball\standings.json');
+        
         return json_decode($file_contents, true);
     }
 
@@ -80,8 +82,10 @@ class DataCollection
             $wins = 0;
             $losses = 0;
             $gamesPlayed = 0;
+            
             for ($standingIndex = 0; $standingIndex < sizeof($jsonData['standing']); $standingIndex++) 
             {
+                
                 if (in_array($standings[$standingIndex]['last_name'], $familyTeam->getTeamList()))
                 {
                     // team belongs to a member of the family. accumulate the stats
@@ -89,10 +93,14 @@ class DataCollection
                     $losses += $standings[$standingIndex]['lost'];
                     $gamesPlayed += $standings[$standingIndex]['games_played'];
                     $tierLevel = $this->findTierLevel($standings[$standingIndex]['last_name']);
+                    
                     $mlbTeam = new MLBTeam($standings[$standingIndex]['last_name'], $standings[$standingIndex]['won'], 
-                        $standings[$standingIndex]['lost'], $standings[$standingIndex]['games_played'], $tierLevel);
+                        $standings[$standingIndex]['lost'], $standings[$standingIndex]['games_played'], $tierLevel, 
+                        $standings[$standingIndex]['last_ten'], $standings[$standingIndex]['first_name'], $standings[$standingIndex]['streak'], 
+                        $standings[$standingIndex]['point_differential']);
                     $familyTeam->addMLBTeam($mlbTeam);
                 }
+            
             }
             $familyTeam->setTeamWins($wins);
             $familyTeam->setTeamLosses($losses);
@@ -147,6 +155,7 @@ class DataCollection
 
             return $teamA->getTeamWins() < $teamB->getTeamWins();
         });
+        
         return $teamList;
     }
 

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{name}} Stats{% endblock %}
+{% block body %}
+<a href="{{path('app_homepage')}}">Back</a>
+    <h1 style="text-align: center;">{{name}} Team Breakdown</h1>
+        <div class="row">
+            <div class="col">
+                <div class="card-team">
+                    <img src="{{ asset('teamlogos/' ~teamObject.mlbTeams[0].teamLowerCase~'.png') }}" width="100%" height="100%" alt="{{teamObject.mlbTeams[0].teamName}} Logo Image">
+                    <h1>{{teamObject.mlbTeams[0].location}} {{teamObject.mlbTeams[0].teamName}}</h1>
+                    
+                    <p class="title">{{teamObject.mlbTeams[0].teamWins}}W - {{teamObject.mlbTeams[0].teamLosses}}L</p>
+                    
+                    <p>L10: {{teamObject.mlbTeams[0].lastTen}}</p>
+                    
+                    <p>Run Differential: 
+                        <i id="pd" data-pd="{{teamObject.mlbTeams[0].plusMinus}}" class='pd' style='font-size:24px;' >{{teamObject.mlbTeams[0].pointDifferential}}</i>
+                    </p>
+                    
+                    <p data-tier={{teamObject.mlbTeams[0].tierLevel}} class="draft">Draft Tier: {{teamObject.mlbTeams[0].tierLevel}}</p>
+                    
+                    <p><a href="https://www.mlb.com/{{teamObject.mlbTeams[0].teamLowerCase}}" target="_blank" rel="noopener noreferrer">Team Website</a></p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card-team">
+                    <img src="{{ asset('teamlogos/' ~teamObject.mlbTeams[1].teamLowerCase~'.png') }}" width="100%" height="100%" alt="{{teamObject.mlbTeams[1].teamName}} Logo Image">
+                    <h1>{{teamObject.mlbTeams[1].location}} {{teamObject.mlbTeams[1].teamName}}</h1>
+                    
+                    <p class="title">{{teamObject.mlbTeams[1].teamWins}}W - {{teamObject.mlbTeams[1].teamLosses}}L</p>
+                    
+                    <p>L10: {{teamObject.mlbTeams[1].lastTen}}</p>
+                    
+                    <p>Run Differential: 
+                        <i id="pd" data-pd="{{teamObject.mlbTeams[1].plusMinus}}" class='pd' style='font-size:24px;' >{{teamObject.mlbTeams[1].pointDifferential}}</i>
+                    </p>
+                    
+                    <p data-tier={{teamObject.mlbTeams[1].tierLevel}} class="draft">Draft Tier: {{teamObject.mlbTeams[1].tierLevel}}</p>
+                    
+                    <p><a href="https://www.mlb.com/{{teamObject.mlbTeams[1].teamLowerCase}}" target="_blank" rel="noopener noreferrer">Team Website</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card-team">
+                    <img src="{{ asset('teamlogos/' ~teamObject.mlbTeams[2].teamLowerCase~'.png') }}" width="100%" height="100%" alt="{{teamObject.mlbTeams[2].teamName}} Logo Image">
+                    <h1>{{teamObject.mlbTeams[2].location}} {{teamObject.mlbTeams[2].teamName}}</h1>
+                    
+                    <p class="title">{{teamObject.mlbTeams[2].teamWins}}W - {{teamObject.mlbTeams[2].teamLosses}}L</p>
+                    
+                    <p>L10: {{teamObject.mlbTeams[2].lastTen}}</p>
+                    
+                    <p>Run Differential: 
+                        <i id="pd" data-pd="{{teamObject.mlbTeams[2].plusMinus}}" class='pd' style='font-size:24px;' >{{teamObject.mlbTeams[2].pointDifferential}}</i>
+                    </p>
+                    
+                    <p data-tier={{teamObject.mlbTeams[2].tierLevel}} class="draft">Draft Tier: {{teamObject.mlbTeams[2].tierLevel}}</p>
+                    
+                    <p><a href="https://www.mlb.com/{{teamObject.mlbTeams[2].teamLowerCase}}" target="_blank" rel="noopener noreferrer">Team Website</a></p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card-team">
+                    <img src="{{ asset('teamlogos/' ~teamObject.mlbTeams[3].teamLowerCase~'.png') }}" width="100%" height="100%" alt="{{teamObject.mlbTeams[3].teamName}} Logo Image">
+                    <h1>{{teamObject.mlbTeams[3].location}} {{teamObject.mlbTeams[3].teamName}}</h1>
+                    
+                    <p class="title">{{teamObject.mlbTeams[3].teamWins}}W - {{teamObject.mlbTeams[3].teamLosses}}L</p>
+                    
+                    <p>L10: {{teamObject.mlbTeams[3].lastTen}}</p>
+                    
+                    <p>Run Differential: 
+                        <i id="pd" data-pd="{{teamObject.mlbTeams[3].plusMinus}}" class='pd' style='font-size:24px;' >{{teamObject.mlbTeams[3].pointDifferential}}</i>
+                    </p>
+                    
+                    <p data-tier={{teamObject.mlbTeams[3].tierLevel}} class="draft">Draft Tier: {{teamObject.mlbTeams[3].tierLevel}}</p>
+                    
+                    <p><a href="https://www.mlb.com/{{teamObject.mlbTeams[3].teamLowerCase}}" target="_blank" rel="noopener noreferrer">Team Website</a></p>
+                </div>
+            </div>
+        </div>
+        
+{% endblock %}

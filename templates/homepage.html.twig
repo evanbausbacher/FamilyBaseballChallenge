@@ -54,7 +54,7 @@
                                         </td>
                                         {% for mlb in t.mlbTeams %}
                                         <tr class="hide mlbTeam" id= "mlbTeam" style="display: none;" data-tier={{ mlb.tierLevel }}>
-                                            <td>&nbsp; &nbsp; &nbsp; {{mlb.teamName}}</td>
+                                            <td><img src="{{ asset('teamlogos/' ~mlb.teamLowerCase~'.png') }}" width="30rem" height="30rem" alt="{{mlb.teamName}} Logo Image">&nbsp; &nbsp; &nbsp; {{mlb.teamName}}</td>
                                             <td>{{mlb.teamWins}}</td>
                                             <td>{{mlb.teamLosses}}</td>
                                             <td>{{mlb.teamGamesPlayed}}</td>

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{name}} Stats{% endblock %}
+{% block body %}
+
+<h1 style="text-align: center;">{{name}} Team Breakdown</h1>
+    {# {% for t in teamObject.mlbTeams %}
+        <div class="card-team">
+            <img src="{{ asset('teamlogos/' ~t.teamLowerCase~'.png') }}" width="100%" height="100%" alt="{{t.teamName}} Logo Image">
+            <h1>{{t.location}} {{t.teamName}}</h1>
+            
+            <p class="title">{{t.teamWins}}W - {{t.teamLosses}}L</p>
+            
+            <p>L10: {{t.lastTen}}</p>
+            
+            <p>Run Differential: 
+                <i id="pd" data-pd="{{t.plusMinus}}" class='pd' style='font-size:24px;' >{{t.pointDifferential}}</i>
+            </p>
+            
+            <p data-tier={{t.tierLevel}} class="draft">Draft Tier: {{t.tierLevel}}</p>
+            
+            <p><a href="https://www.mlb.com/{{t.teamLowerCase}}" target="_blank" rel="noopener noreferrer">Team Website</a></p>
+        </div>
+    {% endfor %} #}
+
+    <div class="card-deck">
+        {% for t in teamObject.mlbTeams %}
+        <div class="row" style="margin-left: 1.5rem;">
+            <div class="card player-instance" style="width: 15rem; height: 32rem; margin: 2rem;">
+                <div style="text-align: left; margin: 1rem;">
+                    <img id="image" class="card-img-top text-center" src="{{ asset('teamlogos/' ~t.teamLowerCase~'.png') }}"
+                        alt="Player picture" style="width: 12rem; height: 11rem;" />
+                </div>
+                <div class="card-header text-center">
+                    <h6>{{t.location}} {{t.teamName}}</h6>
+                </div>
+                <div class="card-body text-center">
+                    <ul class="list-group">
+                        <p class="title">{{t.teamWins}}W - {{t.teamLosses}}L</p>
+                        <p>Run Differential:
+                            <i id="pd" data-pd="{{t.plusMinus}}" class='pd' style='font-size:24px;'>{{t.pointDifferential}}</i>
+                        </p>
+                        <p>L10: {{t.lastTen}}</p>
+                        <p data-tier={{t.tierLevel}} class="draft">Draft Tier: {{t.tierLevel}}</p>
+        
+                        <p><a href="https://www.mlb.com/{{t.teamLowerCase}}" target="_blank"
+                                rel="noopener noreferrer"><button>{{t.teamLowerCase}}.com</button></a></p>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

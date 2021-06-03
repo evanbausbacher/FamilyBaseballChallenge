@@ -1,1 +1,24 @@
-Team Page of {{name}}
+{% extends 'base.html.twig' %}
+{% block title %}{{name}} Stats{% endblock %}
+{% block body %}
+
+<h1 style="text-align: center;">{{name}} Team Breakdown</h1>
+    {% for t in teamObject.mlbTeams %}
+        <div class="card-team">
+            <img src="{{ asset('teamlogos/' ~t.teamLowerCase~'.png') }}" width="100%" height="100%" alt="{{t.teamName}} Logo Image">
+            <h1>{{t.location}} {{t.teamName}}</h1>
+            
+            <p class="title">{{t.teamWins}}W - {{t.teamLosses}}L</p>
+            
+            <p>L10: {{t.lastTen}}</p>
+            
+            <p>Run Differential: 
+                <i id="pd" data-pd="{{t.plusMinus}}" class='pd' style='font-size:24px;' >{{t.pointDifferential}}</i>
+            </p>
+            
+            <p data-tier={{t.tierLevel}} class="draft">Draft Tier: {{t.tierLevel}}</p>
+            
+            <p><a href="https://www.mlb.com/{{t.teamLowerCase}}" target="_blank" rel="noopener noreferrer">Team Website</a></p>
+        </div>
+    {% endfor %}
+{% endblock %}

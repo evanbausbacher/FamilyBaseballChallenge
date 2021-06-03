@@ -5,7 +5,7 @@ namespace App\Service;
 class Team{
 
     // m_namingConvention for private instance fields cannot really be followed due to the getters/setters 
-    // which are used at runtime to render the html within the twig templates. 
+    // which are used at runtime to render the html within the twig  templates. 
     private $teamName;
     private $teamWins;
     private $teamLosses;

@@ -42,13 +42,13 @@ class StandingsController extends AbstractController
      */
     public function teampage($teamName)
     {
-        $teamList = $this->data->returnTeamObject($teamName);
+        $teamObject = $this->data->returnTeamObject($teamName);
 
-        dump($teamList);
+        // dump($teamObject);
 
-        return $this->render('teampage.html.twig', [
+        return $this->render('teampageDeck.html.twig', [
             'name' => $teamName,
-            'teamList' => $teamList
+            'teamObject' => $teamObject
         ]);
     }
 
@@ -59,11 +59,6 @@ class StandingsController extends AbstractController
     public function expandTeamStats($teamName)
     {
         $teamToExpand = $this->data->returnTeamObject($teamName);
-        // dump($teamToExpand); // cannot see on page. only within dev tools > network > previews
-        // dump($teamToExpand->getTeamList());
-        // return $this->returnJSONResponse($teamToExpand);
-        //return new Response("teamToExpand", 204, [], $teamToExpand);
-        // return new Response(null, 204);
         $json_data = array();
         $idx = 0;
         foreach($teamToExpand->getMLBTeams() as $mlbTeam){
