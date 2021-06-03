@@ -11,6 +11,18 @@
                     </div>
                     <div class="card-body card-dashboard">
                         <div class="table-responsive">
+                            <table style="margin: auto; width:50% !important;">
+                                <thead>
+                                    <tr>
+                                        <td class="table-success">Tier 1</td>
+                                        <td class="table-info">Tier 2</td>
+                                        <td class="table-warning">Tier 3</td>
+                                        <td class="table-danger">Tier 4</td>
+                                    </tr>
+                                    
+                                </thead>
+                            </table>
+                            <br>
                             <table class="js-standings-table table table-bordered table-hover dom-jQuery-events" id="standings">
                                 <thead>
                                     <tr>
@@ -41,7 +53,7 @@
                                             </a>
                                         </td>
                                         {% for mlb in t.mlbTeams %}
-                                        <tr class="hide" style="display: none;">
+                                        <tr class="hide mlbTeam" id= "mlbTeam" style="display: none;" data-tier={{ mlb.tierLevel }}>
                                             <td>&nbsp; &nbsp; &nbsp; {{mlb.teamName}}</td>
                                             <td>{{mlb.teamWins}}</td>
                                             <td>{{mlb.teamLosses}}</td>

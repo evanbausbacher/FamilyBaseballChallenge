@@ -67,7 +67,7 @@ var $table = $('.js-standings-table');
 //             new_row.cells[4].innerHTML = "";
 //             new_row.cells[5].innerHTML = "";
 //             var indx = index-1;
-//             new_row.insertBefore($('#standings tbody tr:nth('+indx+')'), new_row);
+//             //new_row.insertBefore($('#standings tbody tr:nth('+indx+')'), new_row);
 //             // x.appendChild(new_row);
 
 //             //console.log(data[index]['name']);
@@ -78,9 +78,10 @@ var $table = $('.js-standings-table');
 //     });
 // });
 
-// $table.find('tbody tr').on('click', function(){
-//     console.log('row clicked updated');
-// })
+$table.find('tbody tr').on('click', function(e){
+    
+})
+
 
 $('[data-toggle="toggle"]').on('click', function(e){
     e.preventDefault();
@@ -91,6 +92,11 @@ $('[data-toggle="toggle"]').on('click', function(e){
         $(e.target).removeClass('text-danger')
         $(e.target).text('expand_more');
     }
-
 	$(this).parents().nextUntil('.teams','.hide').toggle();
 });
+
+$('[data-tier=1]').addClass('table-success');
+$('[data-tier=2]').addClass('table-info');
+$('[data-tier=3]').addClass('table-warning');
+$('[data-tier=4]').addClass('table-danger');
+

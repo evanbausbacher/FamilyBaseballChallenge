@@ -71,7 +71,8 @@ class StandingsController extends AbstractController
                 'name' => $mlbTeam->getTeamName(),
                 'wins' => $mlbTeam->getTeamWins(),
                 'losses' => $mlbTeam->getTeamLosses(),
-                'gamesPlayed' => $mlbTeam->getTeamGamesPlayed()
+                'gamesPlayed' => $mlbTeam->getTeamGamesPlayed(),
+                'tier' => $mlbTeam->getTierLevel()
             );
             $json_data[$idx++] = $json_temp;
         }
