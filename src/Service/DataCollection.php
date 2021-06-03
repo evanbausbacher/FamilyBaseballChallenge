@@ -21,8 +21,8 @@ class DataCollection
             new Team("Dad", 0, 0, 0, ['Angels', 'Astros', 'Pirates', 'White Sox'])
         );
 
-        // $this->m_familyTeams = $this->createSortedFamilyStandings($this->getMLBDataJSON());
-        $this->m_familyTeams = $this->createSortedFamilyStandings($this->loadMLBDataJSON());
+        $this->m_familyTeams = $this->createSortedFamilyStandings($this->getMLBDataJSON());
+        // $this->m_familyTeams = $this->createSortedFamilyStandings($this->loadMLBDataJSON());
     }
     
     public function getStandings(){
