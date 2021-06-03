@@ -134,6 +134,7 @@ class DataCollection
         return $this->m_familyTeams; // array of team objects sorted in order. 
     }
 
+    // finds family member team object and returns
     public function returnTeamObject($teamName)
     {
         foreach ($this->m_familyTeams as $team){
