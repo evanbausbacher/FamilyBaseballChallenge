@@ -150,7 +150,7 @@ class DataCollection
             // sort by wins then by losses
             if ($teamA->getTeamWins() == $teamB->getTeamWins()){
 
-                return $teamA->getTeamLosses() < $teamB->getTeamLosses();
+                return $teamA->getTeamLosses() > $teamB->getTeamLosses();
 
             }
 
