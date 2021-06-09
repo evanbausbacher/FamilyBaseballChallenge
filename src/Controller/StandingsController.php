@@ -7,6 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Contracts\Cache\CacheInterface;
+
 // use Symfony\Component\Serializer\SerializerInterface;
 
 class StandingsController extends AbstractController
@@ -22,14 +24,18 @@ class StandingsController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage() 
+    public function homepage(CacheInterface $cache) 
     {
-        
-        $teams = $this->data->getStandings();
+        $teams = $cache->get('teams', function(){
+            return $this->data->getStandings();
+        });
+
+        // $teams = $this->data->getStandings();
 
         if (strcmp($teams[0], "800") == 0) {
             return new Response("Error acquiring data from source. Contact evanbaus@gmail.com");
         }
+
 
         return $this->render('homepage.html.twig', [
             'teams' => $teams

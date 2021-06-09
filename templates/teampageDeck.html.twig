@@ -25,10 +25,10 @@
         <div class="card-deck">
             {% for t in teamObject.mlbTeams %}
             {# <div class="row d-flex justify-content-center" style="margin-left: 1.5rem;"> #}
-                <div class="card player-instance d-flex justify-content-center" style="width: 15rem; height: 32.5rem; margin: 2rem;">
-                    <div style="text-align: center; margin: 1rem;">
+                <div class="card player-instance d-flex justify-content-center" style="margin: 2vw;">
+                    <div style="text-align: center; margin: 1vw;">
                         <img id="image" class="card-img-top text-center" src="{{ asset('teamlogos/' ~t.teamLowerCase~'.png') }}"
-                            alt="Team picture" style="width: 12rem; height: 12rem;" />
+                            alt="Team picture" style="width: 13vw; height: 12vw; " />
                     </div>
                     <div class="card-header text-center">
                         <h6>{{t.location}} {{t.teamName}}</h6>
@@ -37,7 +37,7 @@
                         <ul class="list-group">
                             <p class="title">{{t.teamWins}}W - {{t.teamLosses}}L</p>
                             <p>Run Differential:
-                                <i id="pd" data-pd="{{t.plusMinus}}" class='pd' style='font-size:24px;'>{{t.pointDifferential}}</i>
+                                <i id="pd" data-pd="{{t.plusMinus}}" class='pd'></i>{{t.pointDifferential}}</i>
                             </p>
                             <p>L10: {{t.lastTen}}</p>
                             <p data-tier={{t.tierLevel}} class="draft">Draft Tier: {{t.tierLevel}}</p>
